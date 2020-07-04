@@ -9,8 +9,7 @@
   },
   "scripts": {
     "dev": "next dev",
-    "build": "next build",
-    "start": "next start",
+    "build": "next build && next export",
     "lint": "eslint pages/**/*.js"
   },
   "dependencies": {
