@@ -1,46 +1,19 @@
 import React from "react";
-import Web3 from "web3";
-import getNetwork from "../lib/getNetwork";
-import getEtherscanLink from "../lib/getEtherscanLink";
+import sendERC20 from "../lib/sendERC20";
 
-export default function SendERC20() {
+function SendERC20() {
   const handleSend = async () => {
-    const web3 = new Web3(Web3.givenProvider || "ws://localhost:8545");
-    const network = getNetwork(web3);
-    const fromAddress = (await web3.eth.getAccounts())[0];
-    const toAddress = "0xc49a7E03d79d3eEFb09920263a42D33B88dA9250";
     const amount = 2;
-
-    // Get ERC20 Token contract instance
-    const abi = [
-      {
-        constant: false,
-        inputs: [
-          { name: "_to", type: "address" },
-          { name: "_value", type: "uint256" },
-        ],
-        name: "transfer",
-        outputs: [{ name: "", type: "bool" }],
-        type: "function",
-      },
-    ];
-
-    // https://etherscan.io/token/0xb8c77482e45f1f44de1745f52c74426c631bdd52
-    const contractAddress = "0xb8c77482e45f1f44de1745f52c74426c631bdd52";
-    const contract = new web3.eth.Contract(abi, contractAddress);
-
-    // calculate ERC20 token amount
+    const toAddress = "0x5BB21b9ADA20B427EE24381C6Af7f6fA3A8c802D";
+    const contractAddress = "0x33dc3264cb5297791d6327d438c126a485ecdbb7";
     const decimals = 18;
-    const value = (amount * Math.pow(10, decimals)).toString();
-
-    // https://web3js.readthedocs.io/en/v1.2.7/web3-eth-contract.html#methods-mymethod-send
-    contract.methods
-      .transfer(toAddress, value)
-      .send({ from: fromAddress }, (error, transactionHash) => {
-        if (error) return console.log("Payment failed", error);
-        const etherscanLink = getEtherscanLink(network, transactionHash);
-        console.log(etherscanLink);
-      });
+    const etherscanLink = await sendERC20(
+      amount,
+      toAddress,
+      contractAddress,
+      decimals
+    );
+    console.log(etherscanLink);
   };
 
   return (
@@ -56,3 +29,5 @@ export default function SendERC20() {
     </>
   );
 }
+
+export default SendERC20;

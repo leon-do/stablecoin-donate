@@ -1,28 +1,12 @@
 import React from "react";
-import Web3 from "web3";
-import getNetwork from "../lib/getNetwork";
-import getEtherscanLink from "../lib/getEtherscanLink";
+import sendETH from "../lib/sendETH";
 
-export default function SendETH() {
+function SendETH() {
   const handleSend = async () => {
-    const web3 = new Web3(Web3.givenProvider || "ws://localhost:8545");
-    const network = getNetwork(web3);
-    const fromAddress = (await web3.eth.getAccounts())[0];
-    const toAddress = "0xc49a7E03d79d3eEFb09920263a42D33B88dA9250";
-    const amount = 0.001;
-
-    web3.eth.sendTransaction(
-      {
-        from: fromAddress,
-        to: toAddress,
-        value: web3.utils.toWei(amount.toString(), "ether"),
-      },
-      (error, transactionHash) => {
-        if (error) return console.log("Payment failed", error);
-        const etherscanLink = getEtherscanLink(network, transactionHash);
-        console.log(etherscanLink);
-      }
-    );
+    const amount = 0.2;
+    const toAddress = "0x5BB21b9ADA20B427EE24381C6Af7f6fA3A8c802D";
+    const etherscanLink = await sendETH(amount, toAddress);
+    console.log(etherscanLink);
   };
 
   return (
@@ -38,3 +22,5 @@ export default function SendETH() {
     </>
   );
 }
+
+export default SendETH;
