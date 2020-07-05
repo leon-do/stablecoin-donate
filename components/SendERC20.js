@@ -2,7 +2,6 @@ import React from "react";
 import Web3 from "web3";
 import getNetwork from "../lib/getNetwork";
 import getEtherscanLink from "../lib/getEtherscanLink";
-import tokens from "../tokens/tokens.json";
 
 export default function Confirmation() {
   const handleSend = async () => {
@@ -27,11 +26,11 @@ export default function Confirmation() {
     ];
 
     // https://etherscan.io/token/0xb8c77482e45f1f44de1745f52c74426c631bdd52
-    const contractAddress = tokens[1].address || "0xb8c77482e45f1f44de1745f52c74426c631bdd52";
+    const contractAddress = "0xb8c77482e45f1f44de1745f52c74426c631bdd52";
     const contract = new web3.eth.Contract(abi, contractAddress);
 
     // calculate ERC20 token amount
-    const decimals = tokens[1].decimals || 18;
+    const decimals = 18;
     const value = (amount * Math.pow(10, decimals)).toString();
 
     // https://web3js.readthedocs.io/en/v1.2.7/web3-eth-contract.html#methods-mymethod-send

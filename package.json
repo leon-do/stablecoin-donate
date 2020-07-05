@@ -11,7 +11,7 @@
     "dev": "next dev",
     "build": "next build",
     "export": "next export",
-    "lint": "eslint pages/**/*.js components/**/*.js"
+    "lint": "eslint pages/**/*.js components/**/*.js config/**/*"
   },
   "dependencies": {
     "next": "9.4.4",
