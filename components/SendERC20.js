@@ -3,7 +3,7 @@ import Web3 from "web3";
 import getNetwork from "../lib/getNetwork";
 import getEtherscanLink from "../lib/getEtherscanLink";
 
-export default function Confirmation() {
+export default function SendERC20() {
   const handleSend = async () => {
     const web3 = new Web3(Web3.givenProvider || "ws://localhost:8545");
     const network = getNetwork(web3);
@@ -34,11 +34,13 @@ export default function Confirmation() {
     const value = (amount * Math.pow(10, decimals)).toString();
 
     // https://web3js.readthedocs.io/en/v1.2.7/web3-eth-contract.html#methods-mymethod-send
-    contract.methods.transfer(toAddress, value).send({ from: fromAddress }, (error, transactionHash) => {
-      if (error) return console.log("Payment failed", error);
-      const etherscanLink = getEtherscanLink(network, transactionHash);
-      console.log(etherscanLink);
-    });
+    contract.methods
+      .transfer(toAddress, value)
+      .send({ from: fromAddress }, (error, transactionHash) => {
+        if (error) return console.log("Payment failed", error);
+        const etherscanLink = getEtherscanLink(network, transactionHash);
+        console.log(etherscanLink);
+      });
   };
 
   return (

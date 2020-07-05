@@ -3,7 +3,7 @@ import Web3 from "web3";
 import getNetwork from "../lib/getNetwork";
 import getEtherscanLink from "../lib/getEtherscanLink";
 
-export default function Confirmation() {
+export default function SendETH() {
   const handleSend = async () => {
     const web3 = new Web3(Web3.givenProvider || "ws://localhost:8545");
     const network = getNetwork(web3);
