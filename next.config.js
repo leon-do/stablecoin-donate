@@ -1,8 +1,10 @@
 module.exports = {
   exportTrailingSlash: true,
-  exportPathMap: function() {
+  exportPathMap: function () {
     return {
-      '/': { page: '/' }
+      "/": { page: "/" },
+      "/pay": { page: "/pay" },
+      "/test": { page: "/test" },
     };
-  }
+  },
 };
