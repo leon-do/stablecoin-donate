@@ -16,7 +16,8 @@
   "dependencies": {
     "next": "9.4.4",
     "react": "16.13.1",
-    "react-dom": "16.13.1"
+    "react-dom": "16.13.1",
+    "web3": "^1.2.9"
   },
   "devDependencies": {
     "eslint": "^7.4.0",
