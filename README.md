@@ -16,7 +16,7 @@ You can start editing the page by modifying `pages/index.js`. The page auto-upda
 
 ## Contribute
 
-Add token in `./tokens/tokens.json`
+Add token in `./config/tokens.json`
 
 ```json
 {
