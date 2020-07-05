@@ -4,7 +4,7 @@
   "private": true,
   "husky": {
     "hooks": {
-      "pre-commit": "yarn lint && yarn build"
+      "pre-commit": "yarn lint && pretty-quick --staged && yarn build"
     }
   },
   "scripts": {
@@ -22,6 +22,8 @@
   "devDependencies": {
     "eslint": "^7.4.0",
     "eslint-plugin-react": "^7.20.3",
-    "husky": "^4.2.5"
+    "husky": "^4.2.5",
+    "prettier": "^2.0.5",
+    "pretty-quick": "^2.0.1"
   }
 }
