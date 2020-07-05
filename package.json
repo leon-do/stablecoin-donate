@@ -2,16 +2,10 @@
   "name": "website",
   "version": "0.1.0",
   "private": true,
-  "husky": {
-    "hooks": {
-      "pre-commit": "yarn lint && pretty-quick --staged && yarn build"
-    }
-  },
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "export": "next export",
-    "lint": "eslint pages/**/*.js components/**/*.js"
+    "export": "next export"
   },
   "dependencies": {
     "next": "9.4.4",
@@ -20,10 +14,16 @@
     "web3": "^1.2.9"
   },
   "devDependencies": {
-    "eslint": "^7.4.0",
-    "eslint-plugin-react": "^7.20.3",
-    "husky": "^4.2.5",
-    "prettier": "^2.0.5",
-    "pretty-quick": "^2.0.1"
+    "husky": ">=4",
+    "lint-staged": ">=10",
+    "prettier": "^2.0.5"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
+  "lint-staged": {
+    "*.{js,css,md}": "prettier --write"
   }
 }
