@@ -11,8 +11,7 @@ function SendERC20() {
 
   useEffect(() => {
     // get token balance and update token state
-    const tokenAddresses = tokens.map((token) => token.address);
-    getERC20Balances(tokenAddresses).then((balances) => {
+    getERC20Balances().then((balances) => {
       // add balances to token array
       const tokenWithBalance = tokens.map((token, i) => {
         token.balance = balances[i];
