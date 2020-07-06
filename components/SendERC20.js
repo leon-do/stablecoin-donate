@@ -1,27 +1,70 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+import { useRouter } from "next/router";
+import tokenConfig from "../config/tokens.json";
 import sendERC20 from "../lib/sendERC20";
+import getERC20Balances from "../lib/getERC20Balances";
 
 function SendERC20() {
-  const handleSend = async () => {
-    const amount = 2;
-    const toAddress = "0x5BB21b9ADA20B427EE24381C6Af7f6fA3A8c802D";
-    const contractAddress = "0x33dc3264cb5297791d6327d438c126a485ecdbb7";
-    const decimals = 18;
-    const etherscanLink = await sendERC20(
-      amount,
-      toAddress,
-      contractAddress,
-      decimals
-    );
-    console.log(etherscanLink);
+  const { toAddress } = useRouter().query;
+  const [tokens, setTokens] = useState(tokenConfig);
+  const [amounts, setAmounts] = useState({});
+
+  useEffect(() => {
+    // get token balance and update token state
+    const tokenAddresses = tokens.map((token) => token.address);
+    getERC20Balances(tokenAddresses).then((balances) => {
+      // add balances to token array
+      const tokenWithBalance = tokens.map((token, i) => {
+        token.balance = balances[i];
+        return token;
+      });
+      setTokens(tokenWithBalance);
+    });
+  }, [useRouter]);
+
+  const handleSend = async (amount, contractAddress, decimals) => {
+    try {
+      const etherscanLink = await sendERC20(
+        amount,
+        toAddress,
+        contractAddress,
+        decimals
+      );
+      console.log(etherscanLink);
+    } catch (error) {
+      alert(error.message);
+    }
+  };
+
+  const handleAmount = (e, tokenName) => {
+    const updatedAmounts = amounts;
+    updatedAmounts[tokenName] = e.target.value;
+    setAmounts(updatedAmounts);
   };
 
   return (
     <>
-      <button className="send" onClick={() => handleSend()}>
-        send ERC20
-      </button>
+      {tokens.map((token) => (
+        <div className="sendERC20" key={token.name}>
+          <div>
+            {token.name} {token.balance}
+          </div>
+          <input type="number" onChange={(e) => handleAmount(e, token.name)} />
+          <button
+            className="send"
+            onClick={() =>
+              handleSend(amounts[token.name], token.address, token.decimals)
+            }
+          >
+            send ERC20
+          </button>
+        </div>
+      ))}
+
       <style jsx>{`
+        .sendERC20 {
+          margin: 20px;
+        }
         button:hover {
           cursor: pointer;
         }
