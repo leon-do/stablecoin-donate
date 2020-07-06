@@ -1,25 +1,47 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+import { useRouter } from "next/router";
 import sendETH from "../lib/sendETH";
+import getETHBalance from "../lib/getETHBalance";
 
 function SendETH() {
-  const handleSend = async () => {
-    const amount = 0.2;
-    const toAddress = "0x5BB21b9ADA20B427EE24381C6Af7f6fA3A8c802D";
-    const etherscanLink = await sendETH(amount, toAddress);
-    console.log(etherscanLink);
+  const { toAddress } = useRouter().query;
+  const [amount, setAmount] = useState("");
+  const [balance, setBalance] = useState("");
+
+  useEffect(() => {
+    getETHBalance().then((balance) => setBalance(balance));
+  }, [useRouter]);
+
+  const handleSend = () => {
+    sendETH(amount, toAddress)
+      .then((etherscanLink) => {
+        console.log(etherscanLink);
+      })
+      .catch((error) => {
+        alert(error.message);
+      });
   };
 
   return (
-    <>
+    <div className="sendEth">
+      <div>ETH Balance: {balance}</div>
+      <input
+        type="number"
+        value={amount}
+        onChange={(e) => setAmount(e.target.value)}
+      />
       <button className="send" onClick={() => handleSend()}>
         send ETH
       </button>
       <style jsx>{`
+        .sendEth {
+          margin: 20px;
+        }
         button:hover {
           cursor: pointer;
         }
       `}</style>
-    </>
+    </div>
   );
 }
 
